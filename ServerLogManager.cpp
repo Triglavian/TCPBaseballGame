@@ -10,7 +10,7 @@ ServerLogManager::~ServerLogManager()
 
 }
 
-void ServerLogManager::SetClientInetInfoToMsg(sockaddr_in clientAddr)
+void ServerLogManager::SetClientInetInfoToMsg(sockaddr_in clientAddr)	//set socket dest address to string
 {
 	logMsg.clear();
 	//inet_ntop(AF_INET, &clientAddr.sin_addr, buf, sizeof(buf));
@@ -18,7 +18,7 @@ void ServerLogManager::SetClientInetInfoToMsg(sockaddr_in clientAddr)
 	sprintf_s((char*)logMsg.c_str(), sizeof(logMsg.c_str()), "Client IP : %s, Port Num = %d", buf.c_str(), clientAddr.sin_port);
 }
 
-void ServerLogManager::ShowClientInfo()
-{
-	//std::cout<<"Client IP : " << logMsg << ", Port Num = "
-}
+//void ServerLogManager::ShowClientInfo()	//print connected client's data
+//{
+//	//std::cout<<"Client IP : " << logMsg << ", Port Num = "
+//}

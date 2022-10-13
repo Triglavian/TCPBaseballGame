@@ -24,7 +24,7 @@ void ClientSocket::AcceptConnection(const SOCKET lSocket)	//validate accept() re
 	*socket = accept(lSocket, (sockaddr*)clientAddr, &addrLen);	//linker error
 }
 
-bool ClientSocket::IsFailToAccept()
+bool ClientSocket::IsFailToAccept()	//validate accept() result
 {
 	return *socket == INVALID_SOCKET;
 }
@@ -150,7 +150,7 @@ Result ClientSocket::GetResult()
 	return result;
 }
 
-void ClientSocket::ClearTempDatas()
+void ClientSocket::ClearTempDatas()	//clear flag, num, acc
 {
 	flag = false;
 	num = 0;

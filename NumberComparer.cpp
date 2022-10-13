@@ -11,7 +11,7 @@ NumberComparer::~NumberComparer()
 	
 }
 
-void NumberComparer::SetGeneratedNumbers(const std::array<int, 3>& nums)
+void NumberComparer::SetGeneratedNumbers(const std::array<int, 3>& nums)	//set generated numbers 
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -19,7 +19,7 @@ void NumberComparer::SetGeneratedNumbers(const std::array<int, 3>& nums)
 	}
 }
 
-bool NumberComparer::CompareNumbers(std::array<int, 3> clientNums)
+bool NumberComparer::CompareNumbers(std::array<int, 3> clientNums)	//return true if all numbers are matched
 {
 	result.Clear();
 	for (int i = 0; i < 3; i++) 

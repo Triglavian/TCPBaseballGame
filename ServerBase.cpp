@@ -83,7 +83,7 @@ bool ServerBase::IsWSAStartFail()	//validate initialization
 	return result != 0;
 }
 
-void ServerBase::ServiceSwitch(ClientSocket*& socket)
+void ServerBase::ServiceSwitch(ClientSocket*& socket)	//received protocol switch
 {
 	cSocket->SetFlag(false);
 	switch (socket->GetProtocol())
@@ -110,14 +110,14 @@ void ServerBase::ServiceSwitch(ClientSocket*& socket)
 	}
 }
 
-void ServerBase::Registration()
+void ServerBase::Registration()	//receive account data and register to db
 {
 	ReadyForRegistration();
 	cSocket->RecvAccPacket();
 	SendRegistrationResult();
 }
 
-void ServerBase::ReadyForRegistration()
+void ServerBase::ReadyForRegistration()	//receive protocol and validate is registration protocol
 {
 	//cSocket->SetProtocol(REGRDY);
 	//cSocket->SetFlag(true);
@@ -125,7 +125,7 @@ void ServerBase::ReadyForRegistration()
 	//cSocket->ClearTempDatas();
 }
 
-void ServerBase::SendRegistrationResult()
+void ServerBase::SendRegistrationResult()	//register account if receive registration protocol
 {	
 	if (cSocket->GetProtocol() != REG) {
 		//cSocket->SetProtocol(REGFAIL);
@@ -139,14 +139,14 @@ void ServerBase::SendRegistrationResult()
 	cSocket->SendBoolPacket(REGSUC);
 }
 
-bool ServerBase::LogIn()
+bool ServerBase::LogIn()	//receive account data and log in if is valid account
 {
 	ReadyForLogIn();
 	cSocket->RecvAccPacket();
 	return SendLogInResult();
 }
 
-void ServerBase::ReadyForLogIn()
+void ServerBase::ReadyForLogIn()	//receive protocol and validate is log in protocol
 {
 	//cSocket->SetProtocol(LINRDY);
 	//cSocket->SetFlag(true);
@@ -154,7 +154,7 @@ void ServerBase::ReadyForLogIn()
 	cSocket->ClearTempDatas();
 }
 
-bool ServerBase::SendLogInResult()
+bool ServerBase::SendLogInResult()	//log in if receive log in protocol
 {
 	if (accountManager->LogIn(cSocket->GetAccountData()) == false)
 	{
@@ -170,7 +170,7 @@ bool ServerBase::SendLogInResult()
 	return true;
 }
 
-bool ServerBase::ReadyToPlayGame()
+bool ServerBase::ReadyToPlayGame()	//receive protocol and validate is game execution
 {
 	cSocket->RecvBoolPacket();
 	if (cSocket->GetFlag() == false || cSocket->GetProtocol() != EXEGAME)
@@ -184,7 +184,7 @@ bool ServerBase::ReadyToPlayGame()
 	return true;
 }
 
-void ServerBase::SendDisconnectionPacket()
+void ServerBase::SendDisconnectionPacket()	//send disconnection request response protocol to client
 {	
 	//cSocket->SetProtocol(DISCON);
 	//cSocket->SetFlag(true);
@@ -193,7 +193,7 @@ void ServerBase::SendDisconnectionPacket()
 	loopFlag = false;
 }
 
-void ServerBase::Connect()
+void ServerBase::Connect()	//connect to client and print log
 {
 	cSocket->AcceptConnection(lSocket->GetSocket());
 	if (cSocket->IsFailToAccept())
@@ -205,14 +205,14 @@ void ServerBase::Connect()
 	std::cout << "Connected : ip = " << addr << ", port = " << ntohs(cSocket->GetSockAddr()->sin_port) << std::endl;
 }
 
-void ServerBase::Disconnect()
+void ServerBase::Disconnect()	//disconnection logger and clear client socket
 {
 	std::cout << "Disconnected : ip = " << addr << ", port = " << ntohs(cSocket->GetSockAddr()->sin_port) << std::endl;
-	cSocket->~ClientSocket();	//call destructor to destroy object without release memory
+	//cSocket->~ClientSocket();	//call destructor to destroy object without release memory	//make clear function instead
 	loopFlag = true;
 }
 
-void ServerBase::ShutdownServer()
+void ServerBase::ShutdownServer()	//release pointers before shutdown server
 {
 	if (lSocket != nullptr) delete lSocket;
 	if (cSocket != nullptr) delete cSocket;

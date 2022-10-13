@@ -19,7 +19,7 @@ ServerSocket::~ServerSocket()
 	}
 }
 
-bool ServerSocket::IsInvalidSock()
+bool ServerSocket::IsInvalidSock()	//create and validate invalid socket creation error
 {
 	*listenSocket = socket(AF_INET, SOCK_STREAM, 0);
 	serverAddr->sin_family = AF_INET;
@@ -29,32 +29,27 @@ bool ServerSocket::IsInvalidSock()
 	return *listenSocket == INVALID_SOCKET;
 }
 
-bool ServerSocket::IsUnbindedSocket()
+bool ServerSocket::IsUnbindedSocket()	//validate unbinded socket error 
 {
 	return result == SOCKET_ERROR;
 }
 
-bool ServerSocket::IsWrongConnection()
+bool ServerSocket::IsWrongConnection()	//validate incommlete connection with client
 {
 	return result == SOCKET_ERROR;
 }
 
-void ServerSocket::BindSocket() {
-	result = bind(*listenSocket, (sockaddr*)serverAddr, sizeof(*serverAddr));	//llinker error
-}
-
-void ServerSocket::ListenToConnection()
+void ServerSocket::BindSocket() //bind socket to connect
 {
-	result = listen(*listenSocket, SOMAXCONN);	//linker error
+	result = bind(*listenSocket, (sockaddr*)serverAddr, sizeof(*serverAddr));
 }
 
-SOCKET ServerSocket::GetSocket()
+void ServerSocket::ListenToConnection()	//keep listening until receive any client's connection
+{
+	result = listen(*listenSocket, SOMAXCONN);
+}
+
+SOCKET ServerSocket::GetSocket()	//socket value returner
 {
 	return *listenSocket;
 }
-
-//void ServerSocket::AcceptConnection(ClientSocket& clientSocket)
-//{
-//	//메인 서버에서 현재 대기중인 클라 소켓을 받아와서 연결할 수 있도록 작성
-//	clientSocket.AcceptConnection(*listenSocket);
-//}

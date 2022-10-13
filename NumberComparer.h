@@ -7,7 +7,7 @@ class NumberComparer
 public:
 	NumberComparer();
 	~NumberComparer();
-	void SetGeneratedNumbers(const std::array<int, 3>& nums);	//
+	void SetGeneratedNumbers(const std::array<int, 3>& nums);	//set generated numbers 
 	bool CompareNumbers(std::array<int, 3> clientNums);	//return true if all numbers are matched
 	int GetStrikes();
 	int GetBalls();

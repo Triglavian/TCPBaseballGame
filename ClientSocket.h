@@ -40,7 +40,7 @@ public:
 	AccountForm& GetAccountData();
 	std::string GetStr();
 	Result GetResult();
-	void ClearTempDatas();
+	void ClearTempDatas();	//clear flag, num, acc
 private:
 	int retval;
 	SOCKET* socket;				//client qsocket

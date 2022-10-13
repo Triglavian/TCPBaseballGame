@@ -23,17 +23,17 @@ BaseballGameManager::~BaseballGameManager()
 	if (comparer != nullptr) delete comparer;
 }
 
-void BaseballGameManager::Run()
+void BaseballGameManager::Run()	//game base
 {
 	while (gameLoop) //escape if get QUIT protocol
 	{
-		_socket->RecvBoolPacket();
-		ProtocolSwitch(_socket->GetProtocol());
+		_socket->RecvBoolPacket();					//receive protocol
+		ProtocolSwitch(_socket->GetProtocol());		//protocol switch
 	}
 	gameLoop = true;
 }
 
-void BaseballGameManager::ProtocolSwitch(const Protocol& protocol)
+void BaseballGameManager::ProtocolSwitch(const Protocol& protocol)	//received protocol switch
 {
 	switch (protocol) 
 	{
@@ -67,19 +67,19 @@ void BaseballGameManager::PlayGame()
 	ResetTryCount();
 }
 
-void BaseballGameManager::QuitGame()
+void BaseballGameManager::QuitGame()	//send quit request response packet and breaking inf loop
 {
 	_socket->SendBoolPacket(QUITRDY);
 	gameLoop = false;
 }
 
-void BaseballGameManager::GenerateNotSameNumbers()
+void BaseballGameManager::GenerateNotSameNumbers()	//generate seperate 3 numbers
 {
 	numberGeneragor->GenerateNumbers(3);
 	comparer->SetGeneratedNumbers(numberGeneragor->GetNumbers());
 }
 
-bool BaseballGameManager::GetNumbersFromClient(std::array<int, 3>& clientNums)
+bool BaseballGameManager::GetNumbersFromClient(std::array<int, 3>& clientNums)	//receive numbers selected by player as string
 {
 	_socket->RecvStrPacket();
 	if (_socket->GetProtocol() != INNUM || _socket->GetStr()[0] == '\n')	//exception : invalid packet or empty data
@@ -91,7 +91,7 @@ bool BaseballGameManager::GetNumbersFromClient(std::array<int, 3>& clientNums)
 	return true;
 }
 
-void BaseballGameManager::SetNumbersFromString(const std::string& str, std::array<int, 3>& nums)
+void BaseballGameManager::SetNumbersFromString(const std::string& str, std::array<int, 3>& nums)	//tokenize and set numbers from string as int
 {
 	std::istringstream instream(_socket->GetStr());	//input string stream
 	std::string token;	//tokenized string
@@ -102,7 +102,7 @@ void BaseballGameManager::SetNumbersFromString(const std::string& str, std::arra
 	}
 }
 
-bool BaseballGameManager::IsInvalidData(const std::array<int, 3>& clientNums)
+bool BaseballGameManager::IsInvalidData(const std::array<int, 3>& clientNums)	//validate is complete numbers data
 {
 	for (int i = 0; i < 3; i++) 
 	{
@@ -111,31 +111,31 @@ bool BaseballGameManager::IsInvalidData(const std::array<int, 3>& clientNums)
 	return false;
 }
 
-void BaseballGameManager::SendResult(const Protocol& protocol)
+void BaseballGameManager::SendResult(const Protocol& protocol)	//send comparation result
 {
 	_socket->SetProtocol(protocol);
 	_socket->SetResult(comparer->GetResult());
 	_socket->SendResultPacket();
 }
 
-void BaseballGameManager::AddTryCount()
+void BaseballGameManager::AddTryCount()	//add current try count
 {
 	report.tryCount++;
 }
 
-void BaseballGameManager::ResetTryCount()
+void BaseballGameManager::ResetTryCount()	//set try count to 0
 {
 	report.tryCount = 0;
 }
 
-void BaseballGameManager::SendTryCount()
+void BaseballGameManager::SendTryCount()	//send try count to client
 {
 	_socket->SetProtocol(SENDCNT);
 	_socket->SetNum(report.tryCount);
 	_socket->SendIntPacket();
 }
 
-void BaseballGameManager::SendGameReport()
+void BaseballGameManager::SendGameReport()	//send game report to client
 {
 	_socket->SetProtocol(SENDREP);
 	_socket->SendReportPacket(report);

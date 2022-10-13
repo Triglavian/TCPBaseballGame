@@ -13,14 +13,14 @@ AccountManager::~AccountManager()
 	}
 }
 
-bool AccountManager::Registration(const AccountForm& tempAcc)
+bool AccountManager::Registration(const AccountForm& tempAcc)	//validate registration result
 {
 	if (IsInvalidAcc(tempAcc) == true) return false;
 	AccountRegistraion(tempAcc);
 	return true;
 }
 
-bool AccountManager::LogIn(const AccountForm& acc)
+bool AccountManager::LogIn(const AccountForm& acc)	//validate log in result
 {
 	for (auto& _acc : *this->acc) {
 		if (_acc.id == acc.id && _acc.pw == acc.pw) return true;
@@ -28,13 +28,13 @@ bool AccountManager::LogIn(const AccountForm& acc)
 	return false;
 }
 
-bool AccountManager::LogOut(AccountForm& acc)
+bool AccountManager::LogOut(AccountForm& acc)	//clear param account data
 {
 	acc.Clear();
 	return true;
 }
 
-bool AccountManager::IsInvalidAcc(const AccountForm& tempAcc)
+bool AccountManager::IsInvalidAcc(const AccountForm& tempAcc)	//validate is exist account
 {
 	for (auto& _acc : *acc) {
 		if (_acc.id == tempAcc.id) return true;
@@ -42,7 +42,7 @@ bool AccountManager::IsInvalidAcc(const AccountForm& tempAcc)
 	return false;
 }
 
-void AccountManager::AccountRegistraion(const AccountForm& tempAcc)
+void AccountManager::AccountRegistraion(const AccountForm& tempAcc)	//register account to db
 {
 	acc->push_back(tempAcc);
 }

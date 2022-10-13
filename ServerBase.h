@@ -23,17 +23,17 @@ private:
 	char addr[INET_ADDRSTRLEN];
 	bool loopFlag;
 
-	void ServiceSwitch(ClientSocket*& socket);
-	void Registration();
-	void ReadyForRegistration();
-	void SendRegistrationResult();
-	bool LogIn();
-	void ReadyForLogIn();
-	bool SendLogInResult();
-	bool ReadyToPlayGame();
-	void SendDisconnectionPacket();
-	void Connect();
-	int retval;
-	void Disconnect();
-	void ShutdownServer();
+	void ServiceSwitch(ClientSocket*& socket);	//received protocol switch
+	void Registration();			//receive account data and register to db
+	void ReadyForRegistration();	//receive protocol and validate is registration protocol
+	void SendRegistrationResult();	//register account if receive registration protocol
+	bool LogIn();					//receive account data and log in if is valid account
+	void ReadyForLogIn();			//receive protocol and validate is log in protocol
+	bool SendLogInResult();			//log in if receive log in protocol
+	bool ReadyToPlayGame();			//receive protocol and validate is game execution
+	void SendDisconnectionPacket();	//send disconnection request response protocol to client
+	void Connect();					//accept connection with client and print log
+	int retval;						
+	void Disconnect();				//disconnection logger and clear client socket
+	void ShutdownServer();			//release pointers before shutdown server
 };

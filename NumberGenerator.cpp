@@ -28,7 +28,7 @@ void NumberGenerator::GenerateNumbers(const int& leftIndex)	//generate random se
 	GenerateNumbers(leftIndex - 1);	//generate new number at next index
 }
 
-std::array<int, 3> NumberGenerator::GetNumbers()
+std::array<int, 3> NumberGenerator::GetNumbers()	//get numbers array
 {
 	return nums;
 }

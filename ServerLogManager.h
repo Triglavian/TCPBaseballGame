@@ -8,12 +8,10 @@ class ServerLogManager
 public:
 	ServerLogManager();
 	~ServerLogManager();
-	void SetClientInetInfoToMsg(sockaddr_in clientAddr);
-	void ShowClientInfo();
+	void SetClientInetInfoToMsg(sockaddr_in clientAddr);	//set socket dest address to string
+	//void ShowClientInfo();	//print connected client's data
 private:
 	std::string logMsg;
-	//std::ostream oStream;
-	//char buf[500];
 	std::string buf;
 };
 
